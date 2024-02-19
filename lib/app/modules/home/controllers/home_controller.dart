@@ -1,23 +1,20 @@
 import 'package:get/get.dart';
+import 'package:task_app/api/api_services.dart';
+import 'package:task_app/models/project.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  RxBool isLoading = RxBool(true);
+  RxList<Project> allProject = <Project>[].obs;
+  fetchData() async {
+    var projectList = await ApiServices.getAllProject();
+    allProject.addAll(projectList);
+    isLoading.value = false;
+    update();
+  }
 
-  final count = 0.obs;
   @override
   void onInit() {
+    fetchData();
     super.onInit();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

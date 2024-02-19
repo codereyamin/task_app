@@ -10,7 +10,7 @@ class SplashController extends GetxController {
 
   onPageRun() {
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () {
         Get.offAllNamed(Routes.HOME);
       },
