@@ -40,21 +40,21 @@ class EditAndAddView extends StatelessWidget {
                     Flexible(
                       child: AppInputTextField(
                         onTap: () {
-                          controller.timeSelect(controller.startTime);
+                          controller.timeSelect(controller.startDate);
                         },
                         readOnly: true,
                         title: "Start Date",
-                        textEditingController: controller.startTime,
+                        textEditingController: controller.startDate,
                       ),
                     ),
                     Flexible(
                       child: AppInputTextField(
                         onTap: () {
-                          controller.timeSelect(controller.endTime);
+                          controller.timeSelect(controller.endDate);
                         },
                         readOnly: true,
                         title: "End Date",
-                        textEditingController: controller.endTime,
+                        textEditingController: controller.endDate,
                       ),
                     ),
                   ],
@@ -71,7 +71,7 @@ class EditAndAddView extends StatelessWidget {
                       size: 40,
                     ),
                     label: Text(
-                      "Update",
+                      controller.isAdd.value ? "Add Project" : "Update",
                       style: AppTextStyle.textStyle1,
                     ),
                     style:

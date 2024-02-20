@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
                     child: SizedBox(
                       width: Get.width / 10,
                       height: Get.width / 10,
-                      child: CircularProgressIndicator(),
+                      child: const CircularProgressIndicator(),
                     ),
                   )
                 : ListView.builder(
@@ -37,9 +37,12 @@ class HomeView extends StatelessWidget {
                       );
                     },
                   ),
-            floatingActionButton: FloatingActionButton(onPressed: () {
-              // ApiServices.getAllProject();
-            }),
+            floatingActionButton: FloatingActionButton.extended(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  Get.toNamed(Routes.EDITANDADD);
+                },
+                label: const Text("Add New Project")),
           );
         });
   }
