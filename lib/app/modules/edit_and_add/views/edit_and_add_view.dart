@@ -14,74 +14,92 @@ class EditAndAddView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(),
-            body: ListView(
-              children: [
-                AppInputTextField(
-                  title: "Project Name",
-                  textEditingController: controller.projectName,
-                ),
-                AppInputTextField(
-                  title: "Assigned Engineer",
-                  textEditingController: controller.assignedEngineer,
-                ),
-                AppInputTextField(
-                  title: "Assigned Technician",
-                  textEditingController: controller.assignedTechnician,
-                ),
-                AppInputTextField(
-                  title: "project Update",
-                  textEditingController: controller.projectUpdate,
-                  textInputAction: TextInputAction.newline,
-                  mainLines: 2,
-                  maxLength: 250,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      child: AppInputTextField(
-                        onTap: () {
-                          controller.timeSelect(controller.startDate);
-                        },
-                        readOnly: true,
-                        title: "Start Date",
-                        textEditingController: controller.startDate,
-                      ),
-                    ),
-                    Flexible(
-                      child: AppInputTextField(
-                        onTap: () {
-                          controller.timeSelect(controller.endDate);
-                        },
-                        readOnly: true,
-                        title: "End Date",
-                        textEditingController: controller.endDate,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add,
-                      size: 40,
-                    ),
-                    label: Text(
-                      controller.isAdd.value ? "Add Project" : "Update",
-                      style: AppTextStyle.textStyle1,
-                    ),
-                    style:
-                        ElevatedButton.styleFrom(padding: EdgeInsets.all(16)),
+            body: Form(
+              key: controller.userFieldGlobalKey,
+              child: ListView(
+                children: [
+                  AppInputTextField(
+                    title: "Project Name",
+                    textEditingController: controller.projectName,
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-              ],
+                  AppInputTextField(
+                    title: "Assigned Engineer",
+                    textEditingController: controller.assignedEngineer,
+                  ),
+                  AppInputTextField(
+                    title: "Assigned Technician",
+                    textEditingController: controller.assignedTechnician,
+                  ),
+                  AppInputTextField(
+                    title: "project Update",
+                    textEditingController: controller.projectUpdate,
+                    textInputAction: TextInputAction.newline,
+                    mainLines: 2,
+                    maxLength: 250,
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: AppInputTextField(
+                          onTap: () {
+                            controller.timeSelect(controller.startDate);
+                          },
+                          readOnly: true,
+                          title: "Start Date",
+                          textEditingController: controller.startDate,
+                        ),
+                      ),
+                      Flexible(
+                        child: AppInputTextField(
+                          onTap: () {
+                            controller.timeSelect(controller.endDate);
+                          },
+                          readOnly: true,
+                          title: "End Date",
+                          textEditingController: controller.endDate,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 100),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (!controller.isLoading.value) {
+                            controller.addAndUpdateProject();
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          size: 40,
+                        ),
+                        label: controller.isLoading.value
+                            ? const Text(
+                                "Loading.....",
+                                style: AppTextStyle.textStyle1,
+                              )
+                            : Text(
+                                controller.isAdd.value
+                                    ? "Add Project"
+                                    : "Update",
+                                style: AppTextStyle.textStyle1,
+                              ),
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(16),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
             ),
           );
         });

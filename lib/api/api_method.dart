@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:task_app/api/api_url.dart';
 import 'package:task_app/widgets/custom_snack_bar.dart';
 
 Map<String, String> basicHeaderInfo() {
@@ -54,6 +55,9 @@ class ApiMethod {
     Map<String, dynamic> body,
   ) async {
     try {
+      print("add project call ");
+      print(url);
+      print(body);
       final response = await http
           .post(
             Uri.parse(url),
@@ -61,7 +65,17 @@ class ApiMethod {
             headers: basicHeaderInfo(),
           )
           .timeout(const Duration(seconds: 30));
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 301) {
+        String? newUrl = response.headers['location'];
 
+        if (newUrl != null) {
+          return post("${ApiUrl.domain}$newUrl", body);
+        } else {
+          throw Exception('Redirection URL not found');
+        }
+      }
       if (response.statusCode >= 200 && response.statusCode <= 290) {
         return jsonDecode(response.body);
       } else {
@@ -83,7 +97,7 @@ class ApiMethod {
   }
 
   // put Method
-  static Future put(
+  static Future<Map<String, dynamic>?> put(
     String url,
     Map<String, dynamic> body,
   ) async {
@@ -95,8 +109,16 @@ class ApiMethod {
             headers: basicHeaderInfo(),
           )
           .timeout(const Duration(seconds: 30));
+      if (response.statusCode == 301) {
+        String? newUrl = response.headers['location'];
 
-      if (response.statusCode >= 200 && response.statusCode <= 290) {
+        if (newUrl != null) {
+          return put("${ApiUrl.domain}$newUrl", body);
+        } else {
+          throw Exception('Redirection URL not found');
+        }
+      }
+      if (response.statusCode >= 200 && response.statusCode <= 299) {
         return jsonDecode(response.body);
       } else {
         return null;

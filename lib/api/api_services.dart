@@ -26,10 +26,10 @@ class ApiServices {
     return projectList;
   }
 
-  Future<bool> addProject(Map<String, dynamic> body) async {
+  static Future<bool> addProject(Map<String, dynamic> body) async {
     try {
       var responseData = await ApiMethod.post(ApiUrl.createProject, body);
-      if (responseData != null) {
+      if (responseData == null || responseData == "") {
         CustomSnackBar.error('Something Went Wrong! Try again');
         return false;
       } else {
@@ -42,11 +42,13 @@ class ApiServices {
     }
   }
 
-  Future<bool> updateProject(Map<String, dynamic> body) async {
+  static Future<bool> updateProject(Map<String, dynamic> body, int id) async {
     try {
-      var responseData = await ApiMethod.put(ApiUrl.createProject, body);
-      if (responseData != null) {
-        CustomSnackBar.error('Something Went Wrong! Try again');
+      var responseData =
+          await ApiMethod.put("${ApiUrl.updateProject}$id", body);
+
+      if (responseData == null) {
+        CustomSnackBar.error('Something Went Wrong! Try again ');
         return false;
       } else {
         CustomSnackBar.success('Project element update successfully');

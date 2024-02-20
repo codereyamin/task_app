@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:task_app/api/api_services.dart';
+import 'package:task_app/app/modules/home/controllers/home_controller.dart';
 import 'package:task_app/models/project.dart';
 
 class EditAndAddController extends GetxController {
   RxBool isAdd = RxBool(true);
+  RxBool isLoading = RxBool(false);
   final GlobalKey<FormState> userFieldGlobalKey = GlobalKey<FormState>();
   TextEditingController projectName = TextEditingController();
   TextEditingController projectUpdate = TextEditingController();
@@ -12,6 +15,7 @@ class EditAndAddController extends GetxController {
   TextEditingController assignedTechnician = TextEditingController();
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
+  int? id;
 
   timeSelect(TextEditingController textEditingController) async {
     final date = await showDatePicker(
@@ -34,6 +38,7 @@ class EditAndAddController extends GetxController {
     assignedTechnician.text = project.assignedTechnician.toString();
     startDate.text = project.startDate.toString();
     endDate.text = project.endDate.toString();
+    id = project.id;
   }
 
   checkData() {
@@ -50,6 +55,40 @@ class EditAndAddController extends GetxController {
       startDate.clear();
       endDate.clear();
     }
+  }
+
+  Map<String, dynamic> get bodyData => {
+        "project_name": projectName.text,
+        "project_update": projectUpdate.text,
+        "assigned_engineer": assignedEngineer.text,
+        "assigned_technician": assignedTechnician.text,
+        "start_date": startDate.text,
+        "end_date": endDate.text
+      };
+
+  addAndUpdateProject() async {
+    if (isAdd.value) {
+      if (userFieldGlobalKey.currentState!.validate()) {
+        print("Add function call ");
+        isLoading.value = true;
+        var responseData = await ApiServices.addProject(bodyData);
+        if (responseData) {
+          Get.find<HomeController>().fetchData();
+          Get.close(1);
+        }
+      }
+    } else {
+      isLoading.value = true;
+
+      var responseData = await ApiServices.updateProject(bodyData, id!);
+
+      if (responseData) {
+        Get.find<HomeController>().fetchData();
+        Get.close(1);
+      }
+    }
+
+    isLoading.value = false;
   }
 
   @override

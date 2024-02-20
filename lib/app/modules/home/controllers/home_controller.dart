@@ -6,10 +6,11 @@ class HomeController extends GetxController {
   RxBool isLoading = RxBool(true);
   RxList<Project> allProject = <Project>[].obs;
   fetchData() async {
+    isLoading.value = true;
     var projectList = await ApiServices.getAllProject();
-    allProject.addAll(projectList);
+    allProject.clear();
+    allProject.assignAll(projectList.reversed.toList());
     isLoading.value = false;
-    update();
   }
 
   @override

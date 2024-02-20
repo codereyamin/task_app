@@ -31,7 +31,13 @@ class AppInputTextField extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          TextField(
+          TextFormField(
+            validator: (value) {
+              if (value == "" || value == null) {
+                return "Field is required";
+              }
+              return null;
+            },
             onTap: onTap,
             controller: textEditingController,
             readOnly: readOnly,

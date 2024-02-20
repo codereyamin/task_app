@@ -20,23 +20,25 @@ class HomeView extends StatelessWidget {
               title: const Text('Home Page'),
               centerTitle: true,
             ),
-            body: controller.isLoading.value
-                ? Center(
-                    child: SizedBox(
-                      width: Get.width / 10,
-                      height: Get.width / 10,
-                      child: const CircularProgressIndicator(),
+            body: Obx(
+              () => controller.isLoading.value
+                  ? Center(
+                      child: SizedBox(
+                        width: Get.width / 10,
+                        height: Get.width / 10,
+                        child: const CircularProgressIndicator(),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: controller.allProject.length,
+                      itemBuilder: (context, index) {
+                        Project project = controller.allProject[index];
+                        return HomePageCard(
+                          project: project,
+                        );
+                      },
                     ),
-                  )
-                : ListView.builder(
-                    itemCount: controller.allProject.length,
-                    itemBuilder: (context, index) {
-                      Project project = controller.allProject[index];
-                      return HomePageCard(
-                        project: project,
-                      );
-                    },
-                  ),
+            ),
             floatingActionButton: FloatingActionButton.extended(
                 icon: const Icon(Icons.add),
                 onPressed: () {

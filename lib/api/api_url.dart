@@ -4,7 +4,7 @@ class ApiUrl {
   static const String getAllProject =
       "$domain/projects/dashboard/all-project-elements";
   static const String createProject =
-      "$domain/projects/dashboard/add-project-elements/";
+      "$domain/projects/dashboard/add-project-elements";
   static const String updateProject =
       "$domain/projects/dashboard/update-project-elements/";
 }
