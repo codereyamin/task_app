@@ -13,7 +13,9 @@ class EditAndAddView extends StatelessWidget {
         init: EditAndAddController(),
         builder: (controller) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              forceMaterialTransparency: true,
+            ),
             body: Form(
               key: controller.userFieldGlobalKey,
               child: ListView(
@@ -65,8 +67,8 @@ class EditAndAddView extends StatelessWidget {
                     height: 16,
                   ),
                   Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100),
+                    () => Align(
+                      alignment: Alignment.center,
                       child: ElevatedButton.icon(
                         onPressed: () {
                           if (!controller.isLoading.value) {
@@ -89,14 +91,15 @@ class EditAndAddView extends StatelessWidget {
                                 style: AppTextStyle.textStyle1,
                               ),
                         style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8))),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 32,
                   ),
                 ],
               ),

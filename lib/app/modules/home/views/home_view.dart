@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Home Page'),
+              title: const Text('All Project'),
               centerTitle: true,
             ),
             body: Obx(

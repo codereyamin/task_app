@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter task app',
+      debugShowCheckedModeBanner: false,
       theme: appThemeData,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
